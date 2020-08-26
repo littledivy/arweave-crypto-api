@@ -3,5 +3,5 @@ import { hash } from "../crypto";
 
 export default async function (req: NowRequest, res: NowResponse) {
   const { data, algorithm } = req.body;
-  res.send(await hash(data, algorithm || null));
+  res.send(await hash(Buffer.from(JSON.stringify(data)), algorithm || null));
 }

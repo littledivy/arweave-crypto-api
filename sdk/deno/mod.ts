@@ -4,7 +4,8 @@ async function request(endpoint: string) {
 
 async function postRequest(endpoint: string, body: any) {
   return await fetch(
-    `https://arweave-crypto-api.vercel.app/api${endpoint}`,
+    // `https://arweave-crypto-api.vercel.app/api${endpoint}`,
+    `http://localhost:3001/api${endpoint}`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -28,4 +29,4 @@ export async function verify() {
   return (await request("/generateJWK")).json();
 }
 
-console.log(await hash(new Uint8Array(0)));
+console.log(await hash(new Uint8Array([100, 200])));

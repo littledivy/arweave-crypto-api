@@ -3,5 +3,5 @@ import { sign } from "../crypto";
 
 export default async function (req: NowRequest, res: NowResponse) {
   const { jwk, data } = req.body;
-  res.send(await sign(jwk, data));
+  res.send(await sign(jwk, Buffer.from(JSON.stringify(data))));
 }
