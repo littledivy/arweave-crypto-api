@@ -46,7 +46,7 @@ export function generateJWK(): Promise<JWKInterface> {
         if (err) {
           reject(err);
         }
-        resolve(this.pemToJWK(privateKey));
+        resolve(pemToJWK(privateKey));
       }
     );
   });
@@ -59,7 +59,7 @@ export function sign(jwk: object, data: Uint8Array): Promise<Uint8Array> {
         .createSign(hashAlgorithm)
         .update(data)
         .sign({
-          key: this.jwkToPem(jwk),
+          key: jwkToPem(jwk),
           padding: constants.RSA_PKCS1_PSS_PADDING,
           saltLength: 0,
         })
@@ -163,7 +163,7 @@ export async function decrypt(
       "salt",
       100000,
       32,
-      this.hashAlgorithm
+      hashAlgorithm
     );
 
     const iv = encrypted.slice(0, 16);
