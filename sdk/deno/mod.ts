@@ -20,7 +20,7 @@ export async function generateJWK() {
 export async function hash(data: Uint8Array, algorithm?: string) {
   return (await postRequest("/hash", {
       data,
-      algorithm: algorithm || null
+      algorithm: algorithm || "SHA-256"
   })).text();
 }
 
