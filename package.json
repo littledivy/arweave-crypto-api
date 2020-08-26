@@ -1,0 +1,13 @@
+{
+  "name": "arweave-crypto-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:divy-work/arweave-crypto-api.git",
+  "author": "divy-work <dj.srivastava23@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@vercel/node": "^1.8.0",
+    "asn1.js": "^5.4.1"
+  }
+}
