@@ -25,8 +25,12 @@ export async function hash(data: Uint8Array, algorithm?: string) {
   })).text();
 }
 
-export async function verify() {
-  return (await request("/generateJWK")).json();
+export async function verify(publicModulus: string, data: Uint8Array, signature: Uint8Array) {
+  return (await postRequest("/verify", {
+      publicModulus,
+      data,
+      signature,
+  })).text();
 }
 
 console.log(await hash(new Uint8Array([100, 200])));
