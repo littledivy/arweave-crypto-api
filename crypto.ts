@@ -26,14 +26,14 @@ const encryptionAlgorithm = "aes-256-cbc";
 export function generateJWK(): Promise<JWKInterface> {
   if (typeof crypto.generateKeyPair != "function") {
     throw new Error(
-      "Keypair generation not supported in this version of Node, only supported in versions 10+"
+      "Keypair generation not supported in this version of Node, only supported in versions 10+",
     );
   }
 
   return new Promise((resolve, reject) => {
     crypto.generateKeyPair(
       "rsa",
-      <crypto.RSAKeyPairOptions<"pem", "pem">>{
+      <crypto.RSAKeyPairOptions<"pem", "pem">> {
         modulusLength: keyLength,
         publicExponent: publicExponent,
         privateKeyEncoding: {
@@ -47,7 +47,7 @@ export function generateJWK(): Promise<JWKInterface> {
           reject(err);
         }
         resolve(pemToJWK(privateKey));
-      }
+      },
     );
   });
 }
@@ -62,7 +62,7 @@ export function sign(jwk: object, data: Uint8Array): Promise<Uint8Array> {
           key: jwkToPem(jwk),
           padding: constants.RSA_PKCS1_PSS_PADDING,
           saltLength: 0,
-        })
+        }),
     );
   });
 }
@@ -70,7 +70,7 @@ export function sign(jwk: object, data: Uint8Array): Promise<Uint8Array> {
 export function verify(
   publicModulus: string,
   data: Uint8Array,
-  signature: Uint8Array
+  signature: Uint8Array,
 ): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const publicKey = {
@@ -88,22 +88,22 @@ export function verify(
           padding: constants.RSA_PKCS1_PSS_PADDING,
           saltLength: 0,
         },
-        signature
-      )
+        signature,
+      ),
     );
   });
 }
 
 export function hash(
   data: Uint8Array,
-  algorithm: string = "SHA-256"
+  algorithm: string = "SHA-256",
 ): Promise<Uint8Array> {
   return new Promise((resolve, reject) => {
     resolve(
       crypto
         .createHash(parseHashAlgorithm(algorithm))
         .update(data)
-        .digest()
+        .digest(),
     );
   });
 }
@@ -118,7 +118,7 @@ export function hash(
  */
 export async function encrypt(
   data: Buffer,
-  key: string | Buffer
+  key: string | Buffer,
 ): Promise<Uint8Array> {
   // As we're using CBC with a randomised IV per cypher we don't really need
   // an additional random salt per passphrase.
@@ -127,7 +127,7 @@ export async function encrypt(
     "salt",
     100000,
     32,
-    hashAlgorithm
+    hashAlgorithm,
   );
 
   const iv = crypto.randomBytes(16);
@@ -135,7 +135,7 @@ export async function encrypt(
   const cipher = crypto.createCipheriv(
     encryptionAlgorithm,
     derivedKey,
-    iv
+    iv,
   );
 
   const encrypted = Buffer.concat([iv, cipher.update(data), cipher.final()]);
@@ -153,7 +153,7 @@ export async function encrypt(
  */
 export async function decrypt(
   encrypted: Buffer,
-  key: string | Buffer
+  key: string | Buffer,
 ): Promise<Uint8Array> {
   try {
     // As we're using CBC with a randomised IV per cypher we don't really need
@@ -163,7 +163,7 @@ export async function decrypt(
       "salt",
       100000,
       32,
-      hashAlgorithm
+      hashAlgorithm,
     );
 
     const iv = encrypted.slice(0, 16);
@@ -173,7 +173,7 @@ export async function decrypt(
     const decipher = crypto.createDecipheriv(
       encryptionAlgorithm,
       derivedKey,
-      iv
+      iv,
     );
 
     const decrypted = Buffer.concat([

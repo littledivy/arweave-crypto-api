@@ -4,8 +4,8 @@ async function request(endpoint: string) {
 
 async function postRequest(endpoint: string, body: any) {
   return await fetch(
-    `https://arweave-crypto-api.vercel.app/api${endpoint}`,
-    // `http://localhost:3001/api${endpoint}`,
+    //`https://arweave-crypto-api.vercel.app/api${endpoint}`,
+    `http://localhost:3000/api${endpoint}`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -19,37 +19,51 @@ export async function generateJWK() {
 }
 
 export async function hash(data: Uint8Array, algorithm?: string) {
-  return (await postRequest("/hash", {
-      data,
-      algorithm: algorithm || "SHA-256"
-  })).text();
+  let r = (await postRequest("/hash", {
+    data,
+    algorithm: algorithm || "SHA-256",
+  })).json();
+  let result = await r;
+  return result.result;
 }
 
-export async function verify(publicModulus: string, data: Uint8Array, signature: Uint8Array) {
-  return (await postRequest("/verify", {
-      publicModulus,
-      data,
-      signature,
-  })).text();
+export async function verify(
+  publicModulus: string,
+  data: Uint8Array,
+  signature: Uint8Array,
+) {
+  let r = (await postRequest("/verify", {
+    publicModulus,
+    data,
+    signature,
+  })).json();
+  let result = await r;
+  return result.result;
 }
 
 export async function sign(jwk: object, data: Uint8Array) {
-  return (await postRequest("/sign", {
+  let r = (await postRequest("/sign", {
     jwk,
     data,
-  })).text();
+  })).json();
+  let result = await r;
+  return result.result;
 }
 
 export async function encrypt(data: Uint8Array, key: string) {
-  return (await postRequest("/encrypt", {
+  let r = (await postRequest("/encrypt", {
     data,
     key,
-  })).text();
+  })).json();
+  let result = await r;
+  return result.result;
 }
 
 export async function decrypt(encrypted: Uint8Array, key: string) {
-  return (await postRequest("/decrypt", {
+  let r = (await postRequest("/decrypt", {
     encrypted,
     key,
-  })).text();
+  })).json();
+  let result = await r;
+  return result.result;
 }
