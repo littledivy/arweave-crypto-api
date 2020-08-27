@@ -4,8 +4,8 @@ async function request(endpoint: string) {
 
 async function postRequest(endpoint: string, body: any) {
   return await fetch(
-    // `https://arweave-crypto-api.vercel.app/api${endpoint}`,
-    `http://localhost:3001/api${endpoint}`,
+    `https://arweave-crypto-api.vercel.app/api${endpoint}`,
+    // `http://localhost:3001/api${endpoint}`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -37,19 +37,19 @@ export async function sign(jwk: object, data: Uint8Array) {
   return (await postRequest("/sign", {
     jwk,
     data,
-  }).text();
+  })).text();
 }
 
 export async function encrypt(data: Uint8Array, key: string) {
   return (await postRequest("/encrypt", {
     data,
     key,
-  }).text();
+  })).text();
 }
 
 export async function decrypt(encrypted: Uint8Array, key: string) {
   return (await postRequest("/decrypt", {
     encrypted,
     key,
-  }).text();
+  })).text();
 }
