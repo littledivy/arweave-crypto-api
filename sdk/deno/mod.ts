@@ -4,8 +4,8 @@ async function request(endpoint: string) {
 
 async function postRequest(endpoint: string, body: any) {
   return await fetch(
-    //`https://arweave-crypto-api.vercel.app/api${endpoint}`,
-    `http://localhost:3000/api${endpoint}`,
+    `https://arweave-crypto-api.vercel.app/api${endpoint}`,
+    // `http://localhost:3000/api${endpoint}`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },
