@@ -33,4 +33,23 @@ export async function verify(publicModulus: string, data: Uint8Array, signature:
   })).text();
 }
 
-console.log(await hash(new Uint8Array([100, 200])));
+export async function sign(jwk: object, data: Uint8Array) {
+  return (await postRequest("/sign", {
+    jwk,
+    data,
+  }).text();
+}
+
+export async function encrypt(data: Uint8Array, key: string) {
+  return (await postRequest("/encrypt", {
+    data,
+    key,
+  }).text();
+}
+
+export async function decrypt(encrypted: Uint8Array, key: string) {
+  return (await postRequest("/decrypt", {
+    encrypted,
+    key,
+  }).text();
+}
